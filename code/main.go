@@ -52,7 +52,7 @@ func main3() {
 	//fmt.Println(list.Size())
 }
 
-func main() {
+func main4() {
 	var list ArrayList.List = ArrayList.NewArrayList()
 	list.Append("1")
 	list.Append("2")
@@ -69,4 +69,21 @@ func main() {
 	item, err := it.Next()
 	fmt.Println(item)
 	fmt.Println(err)
+}
+
+func main() {
+	mystack := ArrayList.NewArrayListStack()
+	mystack.Push(1)
+	mystack.Push(2)
+	mystack.Push(3)
+	mystack.Push(4)
+
+	//fmt.Println(mystack.Pop())
+	//fmt.Println(mystack.Pop())
+	//fmt.Println(mystack.Pop())
+	//fmt.Println(mystack.Pop())
+	for it := mystack.IteratorX(); it.HasNext(); {
+		item, _ := it.Next()
+		fmt.Println(item)
+	}
 }
