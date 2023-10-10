@@ -15,6 +15,7 @@ type List interface {
 	Clear()
 	Delete(index int) error
 	String() string
+	Iterator() Iterator
 }
 
 // 数据结构
