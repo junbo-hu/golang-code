@@ -1,6 +1,7 @@
 package main
 
 import (
+	"code/CircleQueue"
 	"code/Queue"
 	"fmt"
 	"io/ioutil"
@@ -25,7 +26,7 @@ func main11() {
 }
 
 // 用队列遍历文件夹，广度优先
-func main() {
+func main7() {
 	path := "E:\\学习\\go-project"
 	files := []string{}
 	mystack := Queue.NewQueue()
@@ -49,4 +50,22 @@ func main() {
 	for i := 0; i < len(files); i++ {
 		fmt.Println(files[i])
 	}
+}
+
+func main() {
+	var queue CircleQueue.CircleQueue
+	CircleQueue.InitQueue(&queue)
+
+	CircleQueue.EnQueue(&queue, 1)
+	CircleQueue.EnQueue(&queue, 2)
+	CircleQueue.EnQueue(&queue, 3)
+	CircleQueue.EnQueue(&queue, 4)
+	CircleQueue.EnQueue(&queue, 5)
+
+	fmt.Println(CircleQueue.DeQueue(&queue))
+	fmt.Println(CircleQueue.DeQueue(&queue))
+	fmt.Println(CircleQueue.DeQueue(&queue))
+	fmt.Println(CircleQueue.DeQueue(&queue))
+	fmt.Println(CircleQueue.DeQueue(&queue))
+	fmt.Println(CircleQueue.DeQueue(&queue))
 }
