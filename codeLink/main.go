@@ -1,18 +1,25 @@
-package codeLink
+package main
+
+import "fmt"
+
+func main1() {
+	stack := NewStack()
+	for i := 1; i < 100; i++ {
+		stack.Push(i)
+	}
+
+	for data := stack.Pop(); data != nil; data = stack.Pop() {
+		fmt.Println(data)
+	}
+}
 
 func main() {
-	node1 := new(Node)
-	node2 := new(Node)
-	node3 := new(Node)
-	node4 := new(Node)
-	node5 := new(Node)
+	queue := NewLinkQueue()
+	for i := 0; i < 100; i++ {
+		queue.Enqueue(i)
+	}
 
-	node1.data = 1
-	node1.pNext = node2
-	node2.data = 1
-	node2.pNext = node2
-	node3.data = 1
-	node4.pNext = node2
-	node5.data = 1
-
+	for data := queue.Dequeue(); data != nil; data = queue.Dequeue() {
+		fmt.Println(data)
+	}
 }
