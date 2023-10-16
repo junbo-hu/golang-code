@@ -141,7 +141,7 @@ func QuickSort(arr []int) []int {
 		high := make([]int, 0, 0) //存储比splitData大的
 		mid := make([]int, 0, 0)  //存储与splitData相等的
 		mid = append(mid, splitData)
-		for i := 1; i < length; i++ {
+		for i := 0; i < length; i++ {
 			if i == n {
 				continue
 			}
@@ -159,10 +159,113 @@ func QuickSort(arr []int) []int {
 	}
 }
 
-// 奇偶排序
+// 奇偶排序,先奇数位冒泡，再偶数位冒泡，如此循环直到数组有序
+
 func OddEvenSort(arr []int) []int {
-	return nil
+	length := len(arr)
+	isSorted := false
+	for !isSorted {
+		isSorted = true
+		for i := 1; i < length-1; i += 2 { //奇数位
+			if arr[i] > arr[i+1] {
+				arr[i], arr[i+1] = arr[i+1], arr[i]
+				isSorted = false //需要发生交换即还未完成
+			}
+		}
+		fmt.Println("1:", arr)
+		for i := 0; i < length-1; i += 2 { //偶数位
+			if arr[i] > arr[i+1] {
+				arr[i], arr[i+1] = arr[i+1], arr[i]
+				isSorted = false //需要发生交换即还未完成
+			}
+
+		}
+		fmt.Println("0:", arr)
+	}
+	return arr
 }
+
+func merge(leftarr []int, rightarr []int) []int {
+	leftindex := 0
+	rightindex := 0
+	lastarr := []int{}
+	for leftindex < len(leftarr) && rightindex < len(rightarr) {
+		if leftarr[leftindex] < rightarr[rightindex] {
+			lastarr = append(lastarr, leftarr[leftindex])
+			leftindex++
+		} else if leftarr[leftindex] > rightarr[rightindex] {
+			lastarr = append(lastarr, rightarr[rightindex])
+			rightindex++
+		} else { //相等，两边都加
+			lastarr = append(lastarr, leftarr[leftindex])
+			lastarr = append(lastarr, rightarr[rightindex])
+			leftindex++
+			rightindex++
+		}
+	}
+
+	//把剩余的元素加进来
+	for leftindex < len(leftarr) {
+		lastarr = append(lastarr, leftarr[leftindex])
+		leftindex++
+	}
+
+	for rightindex < len(rightarr) {
+		lastarr = append(lastarr, rightarr[rightindex])
+		rightindex++
+	}
+	return lastarr
+}
+
+// 归并排序
+
+func MergeSort(arr []int) []int {
+	length := len(arr)
+	if length <= 1 { // 优化，若length<10可选用我插入排序
+		return arr
+	} else {
+		mid := length / 2
+		leftarr := MergeSort(arr[:mid])
+		rightarr := MergeSort(arr[mid:])
+
+		return merge(leftarr, rightarr) //合并
+	}
+}
+
+func ShellSortStep(arr []int, start int, gap int) {
+	length := len(arr)
+	for i := start + gap; i < length; i += gap { // 进行插入排序
+		backup := arr[i]
+		j := i - gap
+		for j >= 0 && backup < arr[j] {
+			arr[j+gap] = arr[j]
+			j -= gap
+		}
+		arr[j+gap] = backup //多减了一次，得加回来
+		fmt.Println(arr)
+	}
+}
+
+// 希尔排序,步长收缩排序，可用多线程
+
+func ShellSort(arr []int) []int {
+	length := len(arr)
+	if length <= 1 {
+		return arr
+	} else {
+		gap := length / 2
+		for gap > 0 {
+			for i := 0; i < gap; i++ {
+				ShellSortStep(arr, i, gap)
+			}
+			gap /= 2
+		}
+		return arr
+	}
+
+}
+
+// 桶排序或基数排序
 
 func main() {
 	arr := []int{11, 10, 100, 9, 34}
@@ -171,5 +274,5 @@ func main() {
 	//fmt.Println(SelectSort(arr))
 	//fmt.Println(InsertSort(arr))
 	//fmt.Println(HeapSort(arr))
-	fmt.Println(QuickSort(arr))
+	fmt.Println(ShellSort(arr))
 }
