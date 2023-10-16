@@ -265,14 +265,51 @@ func ShellSort(arr []int) []int {
 
 }
 
-// 桶排序或基数排序
+// 桶排序或基数排序，未完成，有bug
+
+func RadixSort(arr []int) []int {
+	max := SelectMax(arr) // 寻找数组极大值
+	for bit := 1; max/bit >= 10; bit *= 10 {
+		// 按数量级分段
+		arr = BitSort(arr, bit) //每次处理一个级别的排序
+		fmt.Println(arr)
+	}
+
+	return arr
+}
+
+func BitSort(arr []int, bit int) []int {
+	length := len(arr)
+	bitcounts := make([]int, 10) // 统计长度
+	for i := 0; i < length; i++ {
+		num := (arr[i] / bit) % 10
+		bitcounts[num]++ // 统计余数相等的个数
+	}
+	fmt.Println(bitcounts)
+
+	for i := 1; i < 10; i++ {
+		bitcounts[i] += bitcounts[i-1] //叠加，计算位置
+	}
+	fmt.Println(bitcounts)
+	tmp := make([]int, 10)
+	for i := length - 1; i >= 0; i-- {
+		num := (arr[i] / bit) % 10
+		tmp[bitcounts[num]-1] = arr[i] //计算排序的位置
+		bitcounts[num]--
+	}
+	for i := 0; i < length; i++ {
+		arr[i] = tmp[i] //保存数组
+	}
+
+	return arr
+}
 
 func main() {
-	arr := []int{11, 10, 100, 9, 34}
+	arr := []int{11, 10, 101, 9, 34}
 	//max := SelectMax(arr)
 	//fmt.Println(max)
 	//fmt.Println(SelectSort(arr))
 	//fmt.Println(InsertSort(arr))
 	//fmt.Println(HeapSort(arr))
-	fmt.Println(ShellSort(arr))
+	fmt.Println(RadixSort(arr))
 }
