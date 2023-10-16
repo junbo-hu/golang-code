@@ -1,6 +1,10 @@
 package main
 
-import "fmt"
+// 各种排序算法
+import (
+	"fmt"
+	"math/rand"
+)
 
 // 找最大值
 func SelectMax(arr []int) int {
@@ -124,17 +128,48 @@ func HeapSort(arr []int) []int {
 	return arr
 }
 
-//快速排序
+//快速排序，分治算法，在所有排序中速度最快
 
-func QuickSort(arr []int) {
+func QuickSort(arr []int) []int {
+	length := len(arr)
+	if length <= 1 {
+		return arr
+	} else {
+		n := rand.Int() % length
+		splitData := arr[n]       //随机一个为基准
+		low := make([]int, 0, 0)  //存储比splitData小的
+		high := make([]int, 0, 0) //存储比splitData大的
+		mid := make([]int, 0, 0)  //存储与splitData相等的
+		mid = append(mid, splitData)
+		for i := 1; i < length; i++ {
+			if i == n {
+				continue
+			}
+			if arr[i] < splitData {
+				low = append(low, arr[i])
+			} else if arr[i] > splitData {
+				high = append(high, arr[i])
+			} else {
+				mid = append(mid, arr[i])
+			}
+		}
+		low, high = QuickSort(low), QuickSort(high) //切割递归处理
+		myarr := append(append(low, mid...), high...)
+		return myarr
+	}
+}
 
+// 奇偶排序
+func OddEvenSort(arr []int) []int {
+	return nil
 }
 
 func main() {
-	arr := []int{11, 10, 100}
+	arr := []int{11, 10, 100, 9, 34}
 	//max := SelectMax(arr)
 	//fmt.Println(max)
 	//fmt.Println(SelectSort(arr))
 	//fmt.Println(InsertSort(arr))
-	fmt.Println(HeapSort(arr))
+	//fmt.Println(HeapSort(arr))
+	fmt.Println(QuickSort(arr))
 }
