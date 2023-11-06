@@ -95,7 +95,7 @@ func removeDuplicates(arr []int) int {
 	return index1 + 1
 }
 
-// 删除有序数组中的重复项2
+// 删除有序数组中的重复项2,快慢指针解决
 func removeDuplicates2(arr []int) int {
 	len := len(arr)
 	if len <= 2 {
