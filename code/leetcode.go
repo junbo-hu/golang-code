@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"math"
+)
 
 // 删除数组中指定元素并返回删除后数组长度
 func removeElement(arr3 []int, val int) int {
@@ -117,6 +120,26 @@ func majorityElement(nums []int) int {
 	return -1
 }
 
+// 买卖股票的最佳时机
+// 给定一个数组 prices ，它的第 i 个元素 prices[i] 表示一支给定股票第 i 天的价格。
+// 你只能选择 某一天 买入这只股票，并选择在 未来的某一个不同的日子 卖出该股票。设计一个算法来计算你所能获取的最大利润。
+// 返回你可以从这笔交易中获取的最大利润。如果你不能获取任何利润，返回 0 。
+// 复杂度分析
+// 时间复杂度：O(n)O(n)O(n)，只需要遍历一次。
+// 空间复杂度：O(1)O(1)O(1)，只使用了常数个变量。
+func maxProfit(prices []int) int {
+	minPrice := math.MaxInt32
+	maxProfit := 0
+	for i := 0; i < len(prices); i++ {
+		if prices[i] < minPrice {
+			minPrice = prices[i]
+		} else if prices[i]-minPrice > maxProfit {
+			maxProfit = prices[i] - minPrice
+		}
+	}
+	return maxProfit
+}
+
 func main() {
 	arr1 := []int{1, 3, 4, 5, 7, 9, 23}
 	arr2 := []int{2, 3, 5, 7, 8, 10, 33, 44, 55, 66}
@@ -142,5 +165,9 @@ func main() {
 	//fmt.Println(arr3)
 
 	fmt.Println(majorityElement(arr3))
+
+	prices := []int{7, 6, 4, 3, 1}
+
+	fmt.Println(maxProfit(prices))
 
 }
